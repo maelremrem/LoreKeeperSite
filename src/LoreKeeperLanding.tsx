@@ -1,122 +1,113 @@
-"use client";
-
 import { useState } from "react";
 
 type Locale = "en" | "fr";
 
+type Feature = {
+  title: string;
+  text: string;
+};
+
 const copy = {
   en: {
-    nav: ["Overview", "Game Master", "Players", "Security"],
+    nav: ["For players", "At the table", "Screens", "Local"],
     switchLabel: "Passer en francais",
-    badge: "Local-first RPG character sheets",
+    badge: "Character sheets for tabletop RPG nights",
     title: "LoreKeeper",
     subtitle:
-      "Run your tabletop campaign from the Game Master's computer, invite players by QR code, and keep every character sheet synchronized on the local network.",
-    primary: "Discover the workflow",
-    secondary: "Voir en francais",
-    trust: ["LAN only", "SQLite persistence", "Role-based access", "Live updates"],
-    consoleLabel: "Game Master console",
-    playerLabel: "Player phone",
-    consoleTitle: "Campaign ready",
-    consoleBody: "Server online, QR code active, four characters connected.",
-    playerTitle: "Philinda Marteline",
-    playerBody: "Editable health, locked secrets, synchronized inventory.",
-    featuresTitle: "Everything stays at the table",
-    featuresIntro:
-      "LoreKeeper replaces scattered paper notes with a single local source of truth without turning your campaign into a cloud service.",
+      "A local app for game masters and players who want live character sheets without losing the paper-table feeling.",
+    primary: "See the table flow",
+    secondary: "Lire en francais",
+    proof: ["No accounts", "No cloud campaign", "Phones join by QR code", "GM keeps control"],
+    playerTitle: "Players keep their sheet in their hand",
+    playerText:
+      "LoreKeeper turns the phone into a clean character sheet: hit points, inventory, skills, conditions, notes and special abilities stay readable during play. Players edit what the GM allows and everything else remains clearly locked.",
+    tableTitle: "Built for a noisy table, not a back office",
+    tableText:
+      "The GM opens the desktop app, starts the local session, shows the QR code, then keeps an eye on characters, health and recent changes while the scene keeps moving.",
     features: [
       {
-        title: "Game Master control",
-        text: "Create campaigns, assign characters, change permissions, audit recent edits, and revoke devices from one desktop app.",
+        title: "Less paper chasing",
+        text: "No more asking who updated HP, where the shared item went, or which sheet has the latest skill score.",
       },
       {
-        title: "Phone-ready sheets",
-        text: "Players open their own character on mobile, browse collapsible sections, and edit only the fields you allow.",
+        title: "A sheet, not a rules engine",
+        text: "LoreKeeper stores the character state and table decisions without forcing death rules, dice math or campaign logic on your group.",
       },
       {
-        title: "Real-time table flow",
-        text: "Health, inventory, skills, conditions, notes, and special abilities update instantly after the server validates the change.",
+        title: "Secrets stay secret",
+        text: "GM notes and hidden inventory are never sent to player browsers. Players only receive the character data they are allowed to see.",
       },
-    ],
-    gmTitle: "A quiet command center for the Game Master",
-    gmPoints: [
-      "Campaign dashboard with LAN address, QR code and connection status.",
-      "Full editor for identity, stats, weapons, skills, inventory, purse and notes.",
-      "Field and section permissions so a player can edit hit points without seeing GM secrets.",
-    ],
-    playerTitle2: "A readable sheet for the player in front of you",
-    playerPoints: [
-      "Portrait mobile layout designed for one-handed play at the table.",
-      "Locked, editable and syncing states are visible without relying on hover.",
-      "Reconnects by loading the authorized state from the server.",
-    ],
-    securityTitle: "Designed for local trust, not public exposure",
-    securityText:
-      "The Game Master's machine hosts the app, Node server and SQLite database. Browsers never talk to the database directly, and player responses use dedicated DTOs so GM notes and secret items never leave the server.",
-    stepsTitle: "How a session starts",
-    steps: ["Open LoreKeeper", "Create or load a campaign", "Show the QR code", "Players join on phones", "Play with live sheets"],
-    ctaTitle: "Less admin drift. More table momentum.",
+    ] satisfies Feature[],
+    screensTitle: "Real LoreKeeper screens",
+    screensText:
+      "The site uses captures from the actual application surfaces: the GM console, the mobile player sheet and the table display.",
+    desktopCaption: "GM console: campaign, QR access, connected players and character overview.",
+    playerCaption: "Player sheet: mobile-first sections, editable fields and sync state.",
+    displayCaption: "Table display: a shared view for the group when you want one.",
+    sessionTitle: "A session in five beats",
+    steps: ["Create the campaign", "Assign characters", "Show the QR code", "Players open their sheet", "Play with live updates"],
+    localTitle: "Local by design",
+    localText:
+      "LoreKeeper runs on the GM computer, stores the campaign in SQLite and serves the player interface on the local network. It is made for people sitting around the same table.",
+    ctaTitle: "Keep the ritual. Remove the friction.",
     ctaText:
-      "LoreKeeper keeps the ritual of character sheets, then adds the parts a live table actually needs: permissions, persistence and synchronized updates.",
+      "LoreKeeper is for roleplayers who love character sheets, but would rather spend the evening making choices than reconciling paper copies.",
   },
   fr: {
-    nav: ["Apercu", "MJ", "Joueurs", "Securite"],
+    nav: ["Joueurs", "A la table", "Ecrans", "Local"],
     switchLabel: "Switch to English",
-    badge: "Fiches JDR locales et synchronisees",
+    badge: "Fiches de personnage pour soirees JDR",
     title: "LoreKeeper",
     subtitle:
-      "Pilotez votre campagne depuis le PC du maitre de jeu, invitez les joueurs par QR code et gardez chaque fiche synchronisee sur le reseau local.",
-    primary: "Decouvrir le parcours",
+      "Une app locale pour MJ et joueurs qui veulent des fiches vivantes sans perdre l'ambiance de la table papier.",
+    primary: "Voir le rythme de jeu",
     secondary: "Read in English",
-    trust: ["LAN uniquement", "Persistance SQLite", "Droits par role", "Temps reel"],
-    consoleLabel: "Console maitre de jeu",
-    playerLabel: "Telephone joueur",
-    consoleTitle: "Campagne prete",
-    consoleBody: "Serveur actif, QR code disponible, quatre personnages connectes.",
-    playerTitle: "Philinda Marteline",
-    playerBody: "PV modifiables, secrets verrouilles, inventaire synchronise.",
-    featuresTitle: "Toute la partie reste a la table",
-    featuresIntro:
-      "LoreKeeper remplace les notes papier dispersees par une source de verite locale, sans transformer votre campagne en service cloud.",
+    proof: ["Pas de comptes", "Pas de campagne cloud", "Connexion par QR code", "Le MJ garde la main"],
+    playerTitle: "Les joueurs gardent leur fiche en main",
+    playerText:
+      "LoreKeeper transforme le telephone en fiche lisible: points de vie, inventaire, competences, alterations, notes et capacites speciales restent accessibles pendant la partie. Les joueurs modifient ce que le MJ autorise, le reste est clairement verrouille.",
+    tableTitle: "Pensee pour une vraie table, pas pour un back-office",
+    tableText:
+      "Le MJ ouvre l'application de bureau, lance la session locale, affiche le QR code puis garde un oeil sur les personnages, les PV et les derniers changements pendant que la scene continue.",
     features: [
       {
-        title: "Controle du MJ",
-        text: "Creez les campagnes, attribuez les personnages, reglez les permissions, consultez l'audit et revoquez les appareils depuis l'app de bureau.",
+        title: "Moins de chasse au papier",
+        text: "Plus besoin de demander qui a modifie ses PV, ou est passe l'objet commun, ou quelle fiche porte le dernier score de competence.",
       },
       {
-        title: "Fiches pensees mobile",
-        text: "Chaque joueur ouvre sa propre fiche, parcourt des sections repliables et modifie seulement les champs autorises.",
+        title: "Une fiche, pas un moteur de regles",
+        text: "LoreKeeper conserve l'etat des personnages et les decisions de table sans imposer de regle de mort, de calcul de des ou de logique de campagne.",
       },
       {
-        title: "Rythme de table en direct",
-        text: "PV, inventaire, competences, alterations, notes et capacites speciales se mettent a jour apres validation serveur.",
+        title: "Les secrets restent secrets",
+        text: "Les notes MJ et objets caches ne sont jamais envoyes aux navigateurs joueurs. Chaque joueur recoit uniquement ce qu'il a le droit de voir.",
       },
-    ],
-    gmTitle: "Un centre de commande discret pour le MJ",
-    gmPoints: [
-      "Tableau de bord avec adresse LAN, QR code et etat des connexions.",
-      "Editeur complet pour identite, caracteristiques, armes, competences, inventaire, bourse et notes.",
-      "Permissions par champ et section pour autoriser les PV sans exposer les secrets MJ.",
-    ],
-    playerTitle2: "Une fiche lisible pour le joueur en face de vous",
-    playerPoints: [
-      "Interface mobile portrait concue pour jouer a une main autour de la table.",
-      "Etats verrouille, modifiable et synchronisation visibles sans survol.",
-      "Reconnexion par rechargement de l'etat autorise depuis le serveur.",
-    ],
-    securityTitle: "Pensee pour la confiance locale, pas l'exposition publique",
-    securityText:
-      "Le PC du MJ heberge l'application, le serveur Node et la base SQLite. Les navigateurs ne parlent jamais directement a la base, et les reponses joueur utilisent des DTO dedies pour que notes MJ et objets secrets ne quittent jamais le serveur.",
-    stepsTitle: "Demarrer une session",
-    steps: ["Ouvrir LoreKeeper", "Creer ou charger une campagne", "Afficher le QR code", "Les joueurs rejoignent", "Jouer avec des fiches en direct"],
-    ctaTitle: "Moins de derive administrative. Plus d'elan a table.",
+    ] satisfies Feature[],
+    screensTitle: "De vrais ecrans LoreKeeper",
+    screensText:
+      "Le site utilise des captures des surfaces reelles de l'application: console MJ, fiche mobile joueur et affichage de table.",
+    desktopCaption: "Console MJ: campagne, acces QR, joueurs connectes et vue des personnages.",
+    playerCaption: "Fiche joueur: sections mobiles, champs modifiables et etat de synchronisation.",
+    displayCaption: "Affichage de table: une vue partagee pour le groupe quand vous en avez besoin.",
+    sessionTitle: "Une session en cinq temps",
+    steps: ["Creer la campagne", "Attribuer les fiches", "Afficher le QR code", "Les joueurs ouvrent leur fiche", "Jouer avec les mises a jour"],
+    localTitle: "Local par principe",
+    localText:
+      "LoreKeeper tourne sur le PC du MJ, stocke la campagne en SQLite et sert l'interface joueur sur le reseau local. C'est fait pour les gens assis autour de la meme table.",
+    ctaTitle: "Gardez le rituel. Enlevez le frottement.",
     ctaText:
-      "LoreKeeper garde le rituel de la fiche de personnage et ajoute ce dont une table vivante a besoin: permissions, persistance et mises a jour synchronisees.",
+      "LoreKeeper s'adresse aux rolistes qui aiment les fiches de personnage, mais preferent passer la soiree a faire des choix plutot qu'a reconciler des copies papier.",
   },
 } satisfies Record<Locale, Record<string, unknown>>;
 
+const screenshots = [
+  { src: "screenshots/lorekeeper-gm-console.png", key: "desktopCaption" },
+  { src: "screenshots/lorekeeper-player-sheet.png", key: "playerCaption" },
+  { src: "screenshots/lorekeeper-table-display.png", key: "displayCaption" },
+];
+
 export function LoreKeeperLanding() {
-  const [locale, setLocale] = useState<Locale>("en");
+  const [locale, setLocale] = useState<Locale>("fr");
   const t = copy[locale];
 
   return (
@@ -128,7 +119,7 @@ export function LoreKeeperLanding() {
         </a>
         <nav aria-label="Main navigation">
           {(t.nav as string[]).map((item, index) => (
-            <a key={item} href={["#overview", "#gm", "#players", "#security"][index]}>
+            <a key={item} href={["#players", "#table", "#screens", "#local"][index]}>
               {item}
             </a>
           ))}
@@ -149,70 +140,43 @@ export function LoreKeeperLanding() {
           <h1>{t.title as string}</h1>
           <p className="hero-text">{t.subtitle as string}</p>
           <div className="hero-actions">
-            <a className="button primary" href="#overview">
+            <a className="button primary" href="#screens">
               {t.primary as string}
             </a>
             <button className="button secondary" type="button" onClick={() => setLocale(locale === "en" ? "fr" : "en")}>
               {t.secondary as string}
             </button>
           </div>
-          <div className="trust-row" aria-label="Product foundations">
-            {(t.trust as string[]).map((item) => (
+          <div className="trust-row" aria-label="LoreKeeper foundations">
+            {(t.proof as string[]).map((item) => (
               <span key={item}>{item}</span>
             ))}
           </div>
         </div>
-
-        <div className="product-scene" aria-label="LoreKeeper interface preview">
-          <div className="desktop-preview">
-            <div className="preview-top">
-              <span>{t.consoleLabel as string}</span>
-              <b>192.168.1.42</b>
-            </div>
-            <div className="status-panel">
-              <span className="badge success">Online</span>
-              <h2>{t.consoleTitle as string}</h2>
-              <p>{t.consoleBody as string}</p>
-              <div className="qr-grid" aria-hidden="true">
-                {Array.from({ length: 25 }).map((_, i) => (
-                  <i key={i} className={i % 2 === 0 || i === 7 || i === 18 ? "filled" : ""} />
-                ))}
-              </div>
-            </div>
-            <div className="dashboard-grid">
-              {["PV", "DEX", "INV"].map((label, index) => (
-                <div key={label} className="metric-card">
-                  <span>{label}</span>
-                  <b>{[12, 72, 18][index]}</b>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="phone-preview">
-            <div className="phone-speaker" />
-            <p className="eyebrow">{t.playerLabel as string}</p>
-            <h2>{t.playerTitle as string}</h2>
-            <p>{t.playerBody as string}</p>
-            <div className="health-meter">
-              <span />
-            </div>
-            {["Identity", "Vital state", "Inventory"].map((section, index) => (
-              <div key={section} className="sheet-row">
-                <b>{locale === "en" ? section : ["Identite", "Etat vital", "Inventaire"][index]}</b>
-                <span>{index === 1 ? "Editable" : "Locked"}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <figure className="hero-screen">
+          <img src="screenshots/lorekeeper-gm-console.png" alt="" />
+        </figure>
       </section>
 
-      <section className="section intro" id="overview">
-        <p className="eyebrow">Overview</p>
-        <h2>{t.featuresTitle as string}</h2>
-        <p>{t.featuresIntro as string}</p>
+      <section className="story-section" id="players">
+        <div>
+          <p className="eyebrow">Players</p>
+          <h2>{t.playerTitle as string}</h2>
+          <p>{t.playerText as string}</p>
+        </div>
+        <figure className="phone-shot">
+          <img src="screenshots/lorekeeper-player-sheet.png" alt="" />
+        </figure>
+      </section>
+
+      <section className="story-section reverse" id="table">
+        <div>
+          <p className="eyebrow">Game night</p>
+          <h2>{t.tableTitle as string}</h2>
+          <p>{t.tableText as string}</p>
+        </div>
         <div className="feature-grid">
-          {(t.features as Array<{ title: string; text: string }>).map((feature, index) => (
+          {(t.features as Feature[]).map((feature, index) => (
             <article className="feature-card" key={feature.title}>
               <span className="index">0{index + 1}</span>
               <h3>{feature.title}</h3>
@@ -222,47 +186,37 @@ export function LoreKeeperLanding() {
         </div>
       </section>
 
-      <section className="split-section" id="gm">
-        <div>
-          <p className="eyebrow">Game Master</p>
-          <h2>{t.gmTitle as string}</h2>
-        </div>
-        <ul className="check-list">
-          {(t.gmPoints as string[]).map((point) => (
-            <li key={point}>{point}</li>
+      <section className="section screens" id="screens">
+        <p className="eyebrow">Screens</p>
+        <h2>{t.screensTitle as string}</h2>
+        <p>{t.screensText as string}</p>
+        <div className="screenshot-grid">
+          {screenshots.map((shot) => (
+            <figure key={shot.src} className={shot.key === "playerCaption" ? "mobile-frame" : ""}>
+              <img src={shot.src} alt="" />
+              <figcaption>{t[shot.key] as string}</figcaption>
+            </figure>
           ))}
-        </ul>
-      </section>
-
-      <section className="split-section reverse" id="players">
-        <div>
-          <p className="eyebrow">Players</p>
-          <h2>{t.playerTitle2 as string}</h2>
-        </div>
-        <ul className="check-list">
-          {(t.playerPoints as string[]).map((point) => (
-            <li key={point}>{point}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section className="security-band" id="security">
-        <img src="lorekeeper-mark.png" alt="" />
-        <div>
-          <p className="eyebrow">Security</p>
-          <h2>{t.securityTitle as string}</h2>
-          <p>{t.securityText as string}</p>
         </div>
       </section>
 
       <section className="section steps">
         <p className="eyebrow">Session</p>
-        <h2>{t.stepsTitle as string}</h2>
+        <h2>{t.sessionTitle as string}</h2>
         <ol>
           {(t.steps as string[]).map((step) => (
             <li key={step}>{step}</li>
           ))}
         </ol>
+      </section>
+
+      <section className="local-band" id="local">
+        <img src="lorekeeper-mark.png" alt="" />
+        <div>
+          <p className="eyebrow">Local-first</p>
+          <h2>{t.localTitle as string}</h2>
+          <p>{t.localText as string}</p>
+        </div>
       </section>
 
       <section className="final-cta">

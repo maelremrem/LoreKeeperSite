@@ -2,57 +2,25 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
-const templateRoot = new URL("../", import.meta.url);
+const root = new URL("../", import.meta.url);
 
-async function render() {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
+test("builds a static LoreKeeper Pages site", async () => {
+  const html = await readFile(new URL("../out/index.html", import.meta.url), "utf8");
+  const page = await readFile(new URL("../src/LoreKeeperLanding.tsx", import.meta.url), "utf8");
+  const packageJson = await readFile(new URL("../package.json", import.meta.url), "utf8");
 
-  return worker.fetch(
-    new Request("http://localhost/", {
-      headers: { accept: "text/html" },
-    }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
-}
-
-test("server-renders the LoreKeeper landing page", async () => {
-  const response = await render();
-  assert.equal(response.status, 200);
-  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
-
-  const html = await response.text();
-  assert.match(html, /<title>LoreKeeper - Local RPG Character Sheets<\/title>/i);
-  assert.match(html, /LoreKeeper/);
-  assert.match(html, /Local-first RPG character sheets/);
-  assert.match(html, /Passer en francais/);
-  assert.match(html, /Game Master console/);
-  assert.doesNotMatch(html, /codex-preview|Your site is taking shape|SkeletonPreview/);
+  assert.match(html, /LoreKeeper - Fiches JDR locales/);
+  assert.match(html, /\/LoreKeeperSite\/assets\//);
+  assert.match(page, /Fiches de personnage pour soirees JDR/);
+  assert.match(page, /screenshots\/lorekeeper-gm-console\.png/);
+  assert.match(page, /Les joueurs gardent leur fiche en main/);
+  assert.doesNotMatch(packageJson, /vinext|wrangler|drizzle|cloudflare|next|openai/i);
 });
 
-test("keeps the finished site free of starter artifacts", async () => {
-  const [page, layout, packageJson] = await Promise.all([
-    readFile(new URL("../src/LoreKeeperLanding.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../package.json", import.meta.url), "utf8"),
-  ]);
-
-  assert.match(page, /"use client"/);
-  assert.match(page, /const copy/);
-  assert.match(page, /lorekeeper-logo\.png/);
-  assert.match(layout, /openGraph/);
-  assert.match(layout, /\/og\.png/);
-  assert.doesNotMatch(packageJson, /react-loading-skeleton/);
-  assert.match(packageJson, /"build:pages"/);
-
-  await assert.rejects(access(new URL("app/_sites-preview", templateRoot)));
+test("keeps starter and server artifacts out of the source tree", async () => {
+  await assert.rejects(access(new URL("app", root)));
+  await assert.rejects(access(new URL("worker", root)));
+  await assert.rejects(access(new URL("db", root)));
+  await assert.rejects(access(new URL("drizzle", root)));
+  await assert.rejects(access(new URL(".openai", root)));
 });

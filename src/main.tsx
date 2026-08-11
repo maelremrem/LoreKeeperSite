@@ -1,8 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import "../app/globals.css";
-import "./pages.css";
-import { LoreKeeperLanding } from "../src/LoreKeeperLanding";
+import { LoreKeeperLanding } from "./LoreKeeperLanding";
+import "./styles.css";
 
 createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
