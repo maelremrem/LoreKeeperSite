@@ -7,9 +7,11 @@ type Feature = {
   text: string;
 };
 
+type Platform = "mac" | "windows" | "linux";
+
 const copy = {
   en: {
-    nav: ["For players", "At the table", "Screens", "Local"],
+    nav: ["For players", "At the table", "Screens", "Local", "Download"],
     switchLabel: "Passer en français",
     badge: "Character sheets for tabletop RPG nights",
     title: "LoreKeeper",
@@ -51,12 +53,21 @@ const copy = {
     localTitle: "Local by design",
     localText:
       "LoreKeeper runs on the GM computer, stores the campaign in SQLite and serves the player interface on the local network. It is made for people sitting around the same table.",
+    downloadTitle: "Download LoreKeeper",
+    downloadText:
+      "Desktop builds for game masters will be published here when the installers are ready.",
+    soonTooltip: "Available soon",
+    downloads: {
+      mac: "Download for macOS",
+      windows: "Download for Windows",
+      linux: "Download for Linux",
+    } satisfies Record<Platform, string>,
     ctaTitle: "Keep the ritual. Remove the friction.",
     ctaText:
       "LoreKeeper is for roleplayers who love character sheets, but would rather spend the evening making choices than reconciling paper copies.",
   },
   fr: {
-    nav: ["Joueurs", "À la table", "Écrans", "Local"],
+    nav: ["Joueurs", "À la table", "Écrans", "Local", "Télécharger"],
     switchLabel: "Switch to English",
     badge: "Fiches de personnage pour soirées JDR",
     title: "LoreKeeper",
@@ -98,7 +109,16 @@ const copy = {
     localTitle: "Local par principe",
     localText:
       "LoreKeeper tourne sur le PC du MJ, stocke la campagne en SQLite et sert l'interface joueur sur le réseau local. C'est fait pour les gens assis autour de la même table.",
-    ctaTitle: "Gardez le rituel. Enlevez le frottement.",
+    downloadTitle: "Télécharger LoreKeeper",
+    downloadText:
+      "Les builds desktop pour les MJ seront publiés ici quand les installateurs seront prêts.",
+    soonTooltip: "Bientôt disponible",
+    downloads: {
+      mac: "Télécharger pour macOS",
+      windows: "Télécharger pour Windows",
+      linux: "Télécharger pour Linux",
+    } satisfies Record<Platform, string>,
+    ctaTitle: "Gardez le rituel. Retirez la frustration.",
     ctaText:
       "LoreKeeper s'adresse aux rôlistes qui aiment les fiches de personnage, mais préfèrent passer la soirée à faire des choix plutôt qu'à réconcilier des copies papier.",
   },
@@ -111,6 +131,38 @@ const screenshots = [
   { src: "screenshots/lorekeeper-player-sheet.png", key: "playerCaption" },
   { src: "screenshots/lorekeeper-table-display.png", key: "displayCaption" },
 ];
+
+const platforms = ["mac", "windows", "linux"] satisfies Platform[];
+
+function PlatformIcon({ platform }: { platform: Platform }) {
+  if (platform === "mac") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24">
+        <path
+          d="M16.18 12.2c-.02-2.12 1.73-3.15 1.81-3.2-1-1.45-2.53-1.65-3.06-1.67-1.29-.13-2.54.77-3.2.77-.67 0-1.68-.75-2.77-.73-1.42.02-2.74.84-3.47 2.13-1.5 2.6-.38 6.42 1.06 8.52.72 1.03 1.56 2.18 2.66 2.14 1.07-.04 1.47-.69 2.77-.69 1.29 0 1.65.69 2.78.67 1.15-.02 1.87-1.04 2.56-2.08.83-1.18 1.16-2.35 1.17-2.41-.03-.01-2.28-.88-2.31-3.45Zm-2.09-6.24c.58-.73.97-1.71.86-2.72-.84.04-1.9.58-2.5 1.28-.54.63-1.03 1.66-.9 2.63.94.07 1.94-.47 2.54-1.19Z"
+          fill="currentColor"
+        />
+      </svg>
+    );
+  }
+
+  if (platform === "windows") {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 24 24">
+        <path d="M3 5.25 10.5 4v7.35H3V5.25Zm8.5-1.4L21 2.3v9.05h-9.5v-7.5ZM3 12.65h7.5V20L3 18.75v-6.1Zm8.5 0H21v9.05l-9.5-1.55v-7.5Z" fill="currentColor" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24">
+      <path
+        d="M5 18.4h14v1.8H5v-1.8Zm1.6-12.6h10.8c.9 0 1.6.72 1.6 1.6v8.1c0 .9-.7 1.6-1.6 1.6H6.6A1.6 1.6 0 0 1 5 15.5V7.4c0-.88.72-1.6 1.6-1.6Zm1.2 3.05 2.35 2.35-2.35 2.35 1.12 1.12 3.48-3.47-3.48-3.48-1.12 1.13Zm5.1 4.55V15h4v-1.6h-4Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
 
 export function LoreKeeperLanding() {
   const [locale, setLocale] = useState<Locale>("fr");
@@ -125,7 +177,7 @@ export function LoreKeeperLanding() {
         </a>
         <nav aria-label="Main navigation">
           {(t.nav as string[]).map((item, index) => (
-            <a key={item} href={["#players", "#table", "#screens", "#local"][index]}>
+            <a key={item} href={["#players", "#table", "#screens", "#local", "#download"][index]}>
               {item}
             </a>
           ))}
@@ -240,6 +292,22 @@ export function LoreKeeperLanding() {
           <p className="eyebrow">Local-first</p>
           <h2>{t.localTitle as string}</h2>
           <p>{t.localText as string}</p>
+        </div>
+      </section>
+
+      <section className="section downloads" id="download">
+        <p className="eyebrow">Downloads</p>
+        <h2>{t.downloadTitle as string}</h2>
+        <p>{t.downloadText as string}</p>
+        <div className="download-grid">
+          {platforms.map((platform) => (
+            <span className="download-tooltip" data-tooltip={t.soonTooltip as string} key={platform}>
+              <button className="download-button" type="button" disabled>
+                <PlatformIcon platform={platform} />
+                <span>{(t.downloads as Record<Platform, string>)[platform]}</span>
+              </button>
+            </span>
+          ))}
         </div>
       </section>
 

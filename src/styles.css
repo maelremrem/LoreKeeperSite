@@ -200,7 +200,7 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(4.2rem, 9vw, 7.6rem);
+  font-size: clamp(4rem, 8vw, 6.8rem);
   color: var(--accent);
   text-wrap: balance;
 }
@@ -451,6 +451,75 @@ figure {
   opacity: 0.84;
 }
 
+.downloads > p:not(.eyebrow) {
+  max-width: 720px;
+}
+
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.download-tooltip {
+  position: relative;
+  display: block;
+}
+
+.download-tooltip::after {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  z-index: 3;
+  min-width: max-content;
+  padding: 7px 10px;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--line));
+  border-radius: 8px;
+  color: #faf5e9;
+  background: #073b4c;
+  box-shadow: 0 10px 22px rgba(7, 47, 58, 0.18);
+  content: attr(data-tooltip);
+  font-size: 0.78rem;
+  font-weight: 850;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 4px);
+  transition: 140ms ease;
+}
+
+.download-tooltip:hover::after,
+.download-tooltip:focus-within::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.download-button {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  min-height: 68px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: color-mix(in srgb, var(--accent) 74%, var(--muted));
+  background: color-mix(in srgb, var(--surface) 88%, white);
+  font-weight: 850;
+  text-align: left;
+}
+
+.download-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.76;
+}
+
+.download-button svg {
+  width: 28px;
+  height: 28px;
+}
+
 .final-cta {
   margin-top: 72px;
   margin-bottom: 72px;
@@ -467,7 +536,32 @@ figure {
   margin: 18px auto 0;
 }
 
+@media (max-width: 1500px) {
+  .hero {
+    grid-template-columns: minmax(380px, 0.95fr) minmax(360px, 1.05fr);
+    gap: clamp(28px, 4vw, 54px);
+  }
+
+  h1 {
+    font-size: clamp(3.8rem, 6.6vw, 6rem);
+  }
+}
+
+@media (max-width: 1180px) {
+  .hero {
+    grid-template-columns: minmax(340px, 0.9fr) minmax(340px, 1.1fr);
+  }
+
+  h1 {
+    font-size: clamp(3.4rem, 6vw, 5.1rem);
+  }
+}
+
 @media (max-width: 980px) {
+  :root {
+    --header-height: 124px;
+  }
+
   .site-header {
     grid-template-columns: auto auto;
   }
@@ -487,7 +581,8 @@ figure {
   .story-section,
   .story-section.reverse,
   .screenshot-grid,
-  .steps ol {
+  .steps ol,
+  .download-grid {
     grid-template-columns: 1fr;
   }
 
@@ -506,11 +601,13 @@ figure {
   }
 
   nav a {
+    padding: 8px 7px;
+    font-size: 0.78rem;
     white-space: nowrap;
   }
 
   h1 {
-    font-size: clamp(3.4rem, 17vw, 5.8rem);
+    font-size: clamp(3rem, 15vw, 4.8rem);
   }
 
   .hero {
