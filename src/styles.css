@@ -169,14 +169,16 @@ nav a:hover {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 0.86fr) minmax(440px, 1.14fr);
-  gap: clamp(28px, 5vw, 72px);
+  grid-template-columns: minmax(420px, 1fr) minmax(380px, 1fr);
+  gap: clamp(36px, 5vw, 82px);
   align-items: center;
   min-height: calc(100vh - 74px);
   padding: clamp(34px, 6vw, 76px) clamp(16px, 5vw, 72px) 42px;
 }
 
 .hero-copy {
+  position: relative;
+  z-index: 2;
   max-width: 690px;
 }
 
@@ -198,7 +200,7 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(4.2rem, 11vw, 9rem);
+  font-size: clamp(4.2rem, 9vw, 7.6rem);
   color: var(--accent);
   text-wrap: balance;
 }
@@ -280,7 +282,9 @@ figure {
 
 .hero-screen {
   aspect-ratio: 16 / 10;
-  transform: rotate(1deg);
+  position: relative;
+  z-index: 1;
+  transform: rotate(0.6deg);
 }
 
 .screenshot-grid img {
