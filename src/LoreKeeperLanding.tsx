@@ -16,6 +16,7 @@ const copy = {
     subtitle:
       "A local app for game masters and players who want live character sheets without losing the paper-table feeling.",
     primary: "See the table flow",
+    repo: "Application repo",
     secondary: "Lire en francais",
     proof: ["No accounts", "No cloud campaign", "Phones join by QR code", "GM keeps control"],
     playerTitle: "Players keep their sheet in their hand",
@@ -61,6 +62,7 @@ const copy = {
     subtitle:
       "Une app locale pour MJ et joueurs qui veulent des fiches vivantes sans perdre l'ambiance de la table papier.",
     primary: "Voir le rythme de jeu",
+    repo: "Repo de l'application",
     secondary: "Read in English",
     proof: ["Pas de comptes", "Pas de campagne cloud", "Connexion par QR code", "Le MJ garde la main"],
     playerTitle: "Les joueurs gardent leur fiche en main",
@@ -142,6 +144,14 @@ export function LoreKeeperLanding() {
           <div className="hero-actions">
             <a className="button primary" href="#screens">
               {t.primary as string}
+            </a>
+            <a
+              className="button secondary"
+              href="https://github.com/maelremrem/JDR-FichesPersonnages"
+              rel="noreferrer"
+              target="_blank"
+            >
+              {t.repo as string}
             </a>
             <button className="button secondary" type="button" onClick={() => setLocale(locale === "en" ? "fr" : "en")}>
               {t.secondary as string}

@@ -14,6 +14,7 @@ test("builds a static LoreKeeper Pages site", async () => {
   assert.match(page, /Fiches de personnage pour soirees JDR/);
   assert.match(page, /screenshots\/lorekeeper-gm-console\.png/);
   assert.match(page, /Les joueurs gardent leur fiche en main/);
+  assert.match(page, /https:\/\/github\.com\/maelremrem\/JDR-FichesPersonnages/);
   assert.doesNotMatch(packageJson, /vinext|wrangler|drizzle|cloudflare|next|openai/i);
 });
 
