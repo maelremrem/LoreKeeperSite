@@ -10,14 +10,15 @@ type Feature = {
 const copy = {
   en: {
     nav: ["For players", "At the table", "Screens", "Local"],
-    switchLabel: "Passer en francais",
+    switchLabel: "Passer en français",
     badge: "Character sheets for tabletop RPG nights",
     title: "LoreKeeper",
     subtitle:
       "A local app for game masters and players who want live character sheets without losing the paper-table feeling.",
     primary: "See the table flow",
     repo: "Application repo",
-    secondary: "Lire en francais",
+    repoLabel: "Open the LoreKeeper application repository on GitHub",
+    secondary: "Lire en français",
     proof: ["No accounts", "No cloud campaign", "Phones join by QR code", "GM keeps control"],
     playerTitle: "Players keep their sheet in their hand",
     playerText:
@@ -55,52 +56,55 @@ const copy = {
       "LoreKeeper is for roleplayers who love character sheets, but would rather spend the evening making choices than reconciling paper copies.",
   },
   fr: {
-    nav: ["Joueurs", "A la table", "Ecrans", "Local"],
+    nav: ["Joueurs", "À la table", "Écrans", "Local"],
     switchLabel: "Switch to English",
-    badge: "Fiches de personnage pour soirees JDR",
+    badge: "Fiches de personnage pour soirées JDR",
     title: "LoreKeeper",
     subtitle:
       "Une app locale pour MJ et joueurs qui veulent des fiches vivantes sans perdre l'ambiance de la table papier.",
     primary: "Voir le rythme de jeu",
     repo: "Repo de l'application",
+    repoLabel: "Ouvrir le dépôt GitHub de l'application LoreKeeper",
     secondary: "Read in English",
     proof: ["Pas de comptes", "Pas de campagne cloud", "Connexion par QR code", "Le MJ garde la main"],
     playerTitle: "Les joueurs gardent leur fiche en main",
     playerText:
-      "LoreKeeper transforme le telephone en fiche lisible: points de vie, inventaire, competences, alterations, notes et capacites speciales restent accessibles pendant la partie. Les joueurs modifient ce que le MJ autorise, le reste est clairement verrouille.",
-    tableTitle: "Pensee pour une vraie table, pas pour un back-office",
+      "LoreKeeper transforme le téléphone en fiche lisible: points de vie, inventaire, compétences, altérations, notes et capacités spéciales restent accessibles pendant la partie. Les joueurs modifient ce que le MJ autorise, le reste est clairement verrouillé.",
+    tableTitle: "Pensée pour une vraie table, pas pour un back-office",
     tableText:
-      "Le MJ ouvre l'application de bureau, lance la session locale, affiche le QR code puis garde un oeil sur les personnages, les PV et les derniers changements pendant que la scene continue.",
+      "Le MJ ouvre l'application de bureau, lance la session locale, affiche le QR code puis garde un œil sur les personnages, les PV et les derniers changements pendant que la scène continue.",
     features: [
       {
         title: "Moins de chasse au papier",
-        text: "Plus besoin de demander qui a modifie ses PV, ou est passe l'objet commun, ou quelle fiche porte le dernier score de competence.",
+        text: "Plus besoin de demander qui a modifié ses PV, où est passé l'objet commun, ou quelle fiche porte le dernier score de compétence.",
       },
       {
-        title: "Une fiche, pas un moteur de regles",
-        text: "LoreKeeper conserve l'etat des personnages et les decisions de table sans imposer de regle de mort, de calcul de des ou de logique de campagne.",
+        title: "Une fiche, pas un moteur de règles",
+        text: "LoreKeeper conserve l'état des personnages et les décisions de table sans imposer de règle de mort, de calcul de dés ou de logique de campagne.",
       },
       {
         title: "Les secrets restent secrets",
-        text: "Les notes MJ et objets caches ne sont jamais envoyes aux navigateurs joueurs. Chaque joueur recoit uniquement ce qu'il a le droit de voir.",
+        text: "Les notes MJ et objets cachés ne sont jamais envoyés aux navigateurs joueurs. Chaque joueur reçoit uniquement ce qu'il a le droit de voir.",
       },
     ] satisfies Feature[],
-    screensTitle: "De vrais ecrans LoreKeeper",
+    screensTitle: "De vrais écrans LoreKeeper",
     screensText:
-      "Le site utilise des captures des surfaces reelles de l'application: console MJ, fiche mobile joueur et affichage de table.",
-    desktopCaption: "Console MJ: campagne, acces QR, joueurs connectes et vue des personnages.",
-    playerCaption: "Fiche joueur: sections mobiles, champs modifiables et etat de synchronisation.",
-    displayCaption: "Affichage de table: une vue partagee pour le groupe quand vous en avez besoin.",
+      "Le site utilise des captures des surfaces réelles de l'application: console MJ, fiche mobile joueur et affichage de table.",
+    desktopCaption: "Console MJ: campagne, accès QR, joueurs connectés et vue des personnages.",
+    playerCaption: "Fiche joueur: sections mobiles, champs modifiables et état de synchronisation.",
+    displayCaption: "Affichage de table: une vue partagée pour le groupe quand vous en avez besoin.",
     sessionTitle: "Une session en cinq temps",
-    steps: ["Creer la campagne", "Attribuer les fiches", "Afficher le QR code", "Les joueurs ouvrent leur fiche", "Jouer avec les mises a jour"],
+    steps: ["Créer la campagne", "Attribuer les fiches", "Afficher le QR code", "Les joueurs ouvrent leur fiche", "Jouer avec les mises à jour"],
     localTitle: "Local par principe",
     localText:
-      "LoreKeeper tourne sur le PC du MJ, stocke la campagne en SQLite et sert l'interface joueur sur le reseau local. C'est fait pour les gens assis autour de la meme table.",
+      "LoreKeeper tourne sur le PC du MJ, stocke la campagne en SQLite et sert l'interface joueur sur le réseau local. C'est fait pour les gens assis autour de la même table.",
     ctaTitle: "Gardez le rituel. Enlevez le frottement.",
     ctaText:
-      "LoreKeeper s'adresse aux rolistes qui aiment les fiches de personnage, mais preferent passer la soiree a faire des choix plutot qu'a reconciler des copies papier.",
+      "LoreKeeper s'adresse aux rôlistes qui aiment les fiches de personnage, mais préfèrent passer la soirée à faire des choix plutôt qu'à réconcilier des copies papier.",
   },
 } satisfies Record<Locale, Record<string, unknown>>;
+
+const appRepoUrl = "https://github.com/maelremrem/lorekeeper";
 
 const screenshots = [
   { src: "screenshots/lorekeeper-gm-console.png", key: "desktopCaption" },
@@ -126,14 +130,24 @@ export function LoreKeeperLanding() {
             </a>
           ))}
         </nav>
-        <button
-          className="language-button"
-          type="button"
-          onClick={() => setLocale(locale === "en" ? "fr" : "en")}
-          aria-label={t.switchLabel as string}
-        >
-          {locale === "en" ? "FR" : "EN"}
-        </button>
+        <div className="header-actions">
+          <a className="icon-button" href={appRepoUrl} rel="noreferrer" target="_blank" aria-label={t.repoLabel as string}>
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path
+                d="M12 2C6.48 2 2 6.58 2 12.22c0 4.51 2.86 8.34 6.84 9.69.5.1.68-.22.68-.49v-1.9c-2.78.62-3.36-1.22-3.36-1.22-.45-1.19-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.85.09-.66.35-1.12.64-1.38-2.22-.26-4.55-1.14-4.55-5.05 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.71 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0 1 12 6.9c.85 0 1.7.12 2.5.34 1.9-1.33 2.74-1.05 2.74-1.05.55 1.4.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.92-2.34 4.78-4.57 5.04.36.32.68.94.68 1.9v2.82c0 .27.18.59.69.49A10.15 10.15 0 0 0 22 12.22C22 6.58 17.52 2 12 2Z"
+                fill="currentColor"
+              />
+            </svg>
+          </a>
+          <button
+            className="language-button"
+            type="button"
+            onClick={() => setLocale(locale === "en" ? "fr" : "en")}
+            aria-label={t.switchLabel as string}
+          >
+            {locale === "en" ? "FR" : "EN"}
+          </button>
+        </div>
       </header>
 
       <section className="hero" id="top">
@@ -147,7 +161,7 @@ export function LoreKeeperLanding() {
             </a>
             <a
               className="button secondary"
-              href="https://github.com/maelremrem/JDR-FichesPersonnages"
+              href={appRepoUrl}
               rel="noreferrer"
               target="_blank"
             >

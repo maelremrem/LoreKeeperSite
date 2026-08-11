@@ -61,13 +61,13 @@ img {
 }
 
 main {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 50;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
@@ -117,6 +117,7 @@ nav a:hover {
 }
 
 .language-button,
+.icon-button,
 .button {
   display: inline-flex;
   min-height: 42px;
@@ -134,7 +135,26 @@ nav a:hover {
   background: var(--surface-raised);
 }
 
+.header-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: end;
+  gap: 8px;
+}
+
+.icon-button {
+  width: 46px;
+  color: var(--accent);
+  background: var(--surface-raised);
+}
+
+.icon-button svg {
+  width: 21px;
+  height: 21px;
+}
+
 .language-button:hover,
+.icon-button:hover,
 .button:hover {
   transform: translateY(-1px);
 }
@@ -447,7 +467,7 @@ figure {
     overflow-x: auto;
   }
 
-  .language-button {
+  .header-actions {
     justify-self: end;
   }
 

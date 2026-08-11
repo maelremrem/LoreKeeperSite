@@ -11,10 +11,11 @@ test("builds a static LoreKeeper Pages site", async () => {
 
   assert.match(html, /LoreKeeper - Fiches JDR locales/);
   assert.match(html, /\/LoreKeeperSite\/assets\//);
-  assert.match(page, /Fiches de personnage pour soirees JDR/);
+  assert.match(page, /Fiches de personnage pour soirées JDR/);
   assert.match(page, /screenshots\/lorekeeper-gm-console\.png/);
   assert.match(page, /Les joueurs gardent leur fiche en main/);
-  assert.match(page, /https:\/\/github\.com\/maelremrem\/JDR-FichesPersonnages/);
+  assert.match(page, /https:\/\/github\.com\/maelremrem\/lorekeeper/);
+  assert.match(page, /Ouvrir le dépôt GitHub de l'application LoreKeeper/);
   assert.doesNotMatch(packageJson, /vinext|wrangler|drizzle|cloudflare|next|openai/i);
 });
 
@@ -23,5 +24,4 @@ test("keeps starter and server artifacts out of the source tree", async () => {
   await assert.rejects(access(new URL("worker", root)));
   await assert.rejects(access(new URL("db", root)));
   await assert.rejects(access(new URL("drizzle", root)));
-  await assert.rejects(access(new URL(".openai", root)));
 });

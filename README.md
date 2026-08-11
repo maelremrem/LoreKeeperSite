@@ -1,6 +1,6 @@
 # LoreKeeperSite
 
-Site vitrine bilingue de LoreKeeper, l'application locale de fiches de personnage pour tables de jeu de role.
+Site vitrine bilingue de LoreKeeper, l'application locale de fiches de personnage pour tables de jeu de rôle.
 
 ## Stack
 
