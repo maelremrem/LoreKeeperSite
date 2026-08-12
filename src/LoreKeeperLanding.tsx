@@ -72,8 +72,8 @@ const copy = {
     loadingTooltip: "Looking for the latest release",
     soonTooltip: "Available soon",
     downloads: {
-      macArm: "macOS Apple Silicon",
-      macX64: "macOS Intel x64",
+      macArm: "Download for macOS Apple Silicon",
+      macX64: "Download for macOS Intel x64",
       windows: "Download for Windows",
       linux: "Download for Linux",
     } satisfies Record<Platform, string>,
@@ -130,8 +130,8 @@ const copy = {
     loadingTooltip: "Recherche de la dernière release",
     soonTooltip: "Bientôt disponible",
     downloads: {
-      macArm: "macOS Apple Silicon",
-      macX64: "macOS Intel x64",
+      macArm: "Télécharger pour macOS Apple Silicon",
+      macX64: "Télécharger pour macOS Intel x64",
       windows: "Télécharger pour Windows",
       linux: "Télécharger pour Linux",
     } satisfies Record<Platform, string>,
