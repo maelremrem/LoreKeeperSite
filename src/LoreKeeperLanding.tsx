@@ -150,7 +150,7 @@ const copy = {
 } satisfies Record<Locale, Record<string, unknown>>;
 
 const appRepoUrl = "https://github.com/maelremrem/lorekeeper";
-const latestReleaseApiUrl = "https://api.github.com/repos/maelremrem/LoreKeeperSite/releases/latest";
+const releasesApiUrl = "https://api.github.com/repos/maelremrem/LoreKeeperSite/releases";
 
 const screenshots = [
   { src: "screenshots/lorekeeper-gm-console.png", key: "desktopCaption" },
@@ -222,21 +222,27 @@ export function LoreKeeperLanding() {
   useEffect(() => {
     let ignore = false;
 
-    fetch(latestReleaseApiUrl, { headers: { Accept: "application/vnd.github+json" } })
+    fetch(releasesApiUrl, { headers: { Accept: "application/vnd.github+json" } })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`GitHub release lookup failed: ${response.status}`);
         }
 
-        return response.json() as Promise<ReleaseInfo>;
+        return response.json() as Promise<ReleaseInfo[]>;
       })
-      .then((release) => {
+      .then((releases) => {
+        const release = releases[0];
+
         if (!ignore) {
-          setReleaseInfo({
-            name: release.name,
-            tag_name: release.tag_name,
-            assets: release.assets ?? [],
-          });
+          setReleaseInfo(
+            release
+              ? {
+                  name: release.name,
+                  tag_name: release.tag_name,
+                  assets: release.assets ?? [],
+                }
+              : null,
+          );
         }
       })
       .catch(() => {
