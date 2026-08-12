@@ -151,6 +151,7 @@ const copy = {
 
 const appRepoUrl = "https://github.com/maelremrem/lorekeeper";
 const releasesApiUrl = "https://api.github.com/repos/maelremrem/LoreKeeperSite/releases";
+const betaReleaseApiUrl = "https://api.github.com/repos/maelremrem/LoreKeeperSite/releases/tags/beta";
 
 const screenshots = [
   { src: "screenshots/lorekeeper-gm-console.png", key: "desktopCaption" },
@@ -214,6 +215,26 @@ function getReleaseVersion(release: ReleaseInfo) {
   return release.name?.trim() || release.tag_name;
 }
 
+async function fetchJson<T>(url: string) {
+  const response = await fetch(url, { headers: { Accept: "application/vnd.github+json" } });
+
+  if (!response.ok) {
+    throw new Error(`GitHub release lookup failed: ${response.status}`);
+  }
+
+  return response.json() as Promise<T>;
+}
+
+async function fetchLatestRelease() {
+  const releases = await fetchJson<ReleaseInfo[]>(releasesApiUrl);
+
+  if (releases[0]) {
+    return releases[0];
+  }
+
+  return fetchJson<ReleaseInfo>(betaReleaseApiUrl);
+}
+
 export function LoreKeeperLanding() {
   const [locale, setLocale] = useState<Locale>("fr");
   const [releaseInfo, setReleaseInfo] = useState<ReleaseInfo | null | undefined>(undefined);
@@ -222,27 +243,14 @@ export function LoreKeeperLanding() {
   useEffect(() => {
     let ignore = false;
 
-    fetch(releasesApiUrl, { headers: { Accept: "application/vnd.github+json" } })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`GitHub release lookup failed: ${response.status}`);
-        }
-
-        return response.json() as Promise<ReleaseInfo[]>;
-      })
-      .then((releases) => {
-        const release = releases[0];
-
+    fetchLatestRelease()
+      .then((release) => {
         if (!ignore) {
-          setReleaseInfo(
-            release
-              ? {
-                  name: release.name,
-                  tag_name: release.tag_name,
-                  assets: release.assets ?? [],
-                }
-              : null,
-          );
+          setReleaseInfo({
+            name: release.name,
+            tag_name: release.tag_name,
+            assets: release.assets ?? [],
+          });
         }
       })
       .catch(() => {

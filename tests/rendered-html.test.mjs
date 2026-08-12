@@ -20,6 +20,7 @@ test("builds a static LoreKeeper Pages site", async () => {
   assert.match(page, /Dernière version: \{version\}/);
   assert.match(page, /Bientôt disponible\./);
   assert.match(page, /https:\/\/api\.github\.com\/repos\/maelremrem\/LoreKeeperSite\/releases/);
+  assert.match(page, /https:\/\/api\.github\.com\/repos\/maelremrem\/LoreKeeperSite\/releases\/tags\/beta/);
   assert.match(page, /Télécharger pour macOS Apple Silicon/);
   assert.match(page, /Télécharger pour macOS Intel x64/);
   assert.match(page, /Télécharger pour Windows/);
