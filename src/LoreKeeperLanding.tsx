@@ -14,6 +14,12 @@ type ReleaseAsset = {
   browser_download_url: string;
 };
 
+type ReleaseInfo = {
+  name?: string;
+  tag_name: string;
+  assets: ReleaseAsset[];
+};
+
 type DownloadState = "loading" | "ready" | "unavailable";
 
 type DownloadOption = {
@@ -67,8 +73,9 @@ const copy = {
     localText:
       "LoreKeeper runs on the GM computer, stores the campaign in SQLite and serves the player interface on the local network. It is made for people sitting around the same table.",
     downloadTitle: "Download LoreKeeper",
-    downloadText:
-      "The buttons automatically link to the latest packages published in the LoreKeeper GitHub release.",
+    downloadLoading: "Checking the latest public release.",
+    downloadUnavailable: "Available soon.",
+    downloadReady: "Latest version: {version}. Pick the package for the GM computer and start your table locally.",
     loadingTooltip: "Looking for the latest release",
     soonTooltip: "Available soon",
     downloads: {
@@ -125,8 +132,9 @@ const copy = {
     localText:
       "LoreKeeper tourne sur le PC du MJ, stocke la campagne en SQLite et sert l'interface joueur sur le réseau local. C'est fait pour les gens assis autour de la même table.",
     downloadTitle: "Télécharger LoreKeeper",
-    downloadText:
-      "Les boutons pointent automatiquement vers les derniers packages publiés dans la release GitHub de LoreKeeper.",
+    downloadLoading: "Recherche de la dernière release publique.",
+    downloadUnavailable: "Bientôt disponible.",
+    downloadReady: "Dernière version: {version}. Choisissez le package du PC MJ et lancez votre table en local.",
     loadingTooltip: "Recherche de la dernière release",
     soonTooltip: "Bientôt disponible",
     downloads: {
@@ -202,9 +210,13 @@ function getAssetForPlatform(assets: ReleaseAsset[], platform: Platform) {
   });
 }
 
+function getReleaseVersion(release: ReleaseInfo) {
+  return release.name?.trim() || release.tag_name;
+}
+
 export function LoreKeeperLanding() {
   const [locale, setLocale] = useState<Locale>("fr");
-  const [releaseAssets, setReleaseAssets] = useState<ReleaseAsset[] | null>(null);
+  const [releaseInfo, setReleaseInfo] = useState<ReleaseInfo | null | undefined>(undefined);
   const t = copy[locale];
 
   useEffect(() => {
@@ -216,16 +228,20 @@ export function LoreKeeperLanding() {
           throw new Error(`GitHub release lookup failed: ${response.status}`);
         }
 
-        return response.json() as Promise<{ assets?: ReleaseAsset[] }>;
+        return response.json() as Promise<ReleaseInfo>;
       })
       .then((release) => {
         if (!ignore) {
-          setReleaseAssets(release.assets ?? []);
+          setReleaseInfo({
+            name: release.name,
+            tag_name: release.tag_name,
+            assets: release.assets ?? [],
+          });
         }
       })
       .catch(() => {
         if (!ignore) {
-          setReleaseAssets([]);
+          setReleaseInfo(null);
         }
       });
 
@@ -237,11 +253,15 @@ export function LoreKeeperLanding() {
   const downloadOptions = useMemo<DownloadOption[]>(
     () =>
       platforms.map((platform) => {
-        if (!releaseAssets) {
+        if (releaseInfo === undefined) {
           return { platform, state: "loading" };
         }
 
-        const asset = getAssetForPlatform(releaseAssets, platform);
+        if (releaseInfo === null) {
+          return { platform, state: "unavailable" };
+        }
+
+        const asset = getAssetForPlatform(releaseInfo.assets, platform);
 
         if (!asset) {
           return { platform, state: "unavailable" };
@@ -249,8 +269,15 @@ export function LoreKeeperLanding() {
 
         return { platform, href: asset.browser_download_url, state: "ready" };
       }),
-    [releaseAssets],
+    [releaseInfo],
   );
+
+  const downloadText =
+    releaseInfo === undefined
+      ? (t.downloadLoading as string)
+      : releaseInfo === null
+        ? (t.downloadUnavailable as string)
+        : (t.downloadReady as string).replace("{version}", getReleaseVersion(releaseInfo));
 
   return (
     <main>
@@ -382,7 +409,7 @@ export function LoreKeeperLanding() {
       <section className="section downloads" id="download">
         <p className="eyebrow">Downloads</p>
         <h2>{t.downloadTitle as string}</h2>
-        <p>{t.downloadText as string}</p>
+        <p>{downloadText}</p>
         <div className="download-grid">
           {downloadOptions.map((download) => (
             <span
