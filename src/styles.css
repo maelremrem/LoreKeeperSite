@@ -284,7 +284,6 @@ figure {
   aspect-ratio: 16 / 10;
   position: relative;
   z-index: 1;
-  transform: rotate(0.6deg);
 }
 
 .screenshot-grid img {
