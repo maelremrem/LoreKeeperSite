@@ -24,6 +24,10 @@ test("builds a static LoreKeeper Pages site", async () => {
   assert.match(page, /Télécharger pour macOS Intel x64/);
   assert.match(page, /Télécharger pour Windows/);
   assert.match(page, /Télécharger pour Linux/);
+  assert.match(page, /macos-arm64\\\.zip/);
+  assert.match(page, /macos-x64\\\.zip/);
+  assert.match(page, /windows-x64\\\.zip/);
+  assert.match(page, /linux-x64\\\.zip/);
   assert.match(page, /Bientôt disponible/);
   assert.match(page, /Retirez la frustration/);
   assert.doesNotMatch(packageJson, /vinext|wrangler|drizzle|cloudflare|next|openai/i);

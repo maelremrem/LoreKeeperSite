@@ -29,12 +29,12 @@ utilisée autour d'une table.
 ## Téléchargements
 
 La section de téléchargement lit automatiquement la dernière release publique du
-repo `maelremrem/lorekeeper` via l'API GitHub. Les assets sont associés aux
-boutons à partir de leur nom:
+repo `maelremrem/lorekeeper` via l'API GitHub. Elle attend uniquement des
+versions portables en `.zip`, nommées ainsi:
 
-- macOS Apple Silicon: `mac`, `darwin`, `osx`, `dmg` ou `pkg` + `arm64`,
-  `aarch64` ou `apple-silicon`
-- macOS Intel x64: `mac`, `darwin`, `osx`, `dmg` ou `pkg` + `x64`,
-  `amd64` ou `intel`
-- Windows: `windows`, `win32`, `win64`, `win`, `setup`, `.exe` ou `.msi`
-- Linux: `linux`, `appimage`, `.deb`, `.rpm`, `x86_64.tar` ou `amd64.tar`
+- macOS Apple Silicon: `LoreKeeper-0.1.0-macos-arm64.zip`
+- macOS Intel x64: `LoreKeeper-0.1.0-macos-x64.zip`
+- Windows: `LoreKeeper-0.1.0-windows-x64.zip`
+- Linux: `LoreKeeper-0.1.0-linux-x64.zip`
+
+Le numéro `0.1.0` est un exemple: il doit suivre le numéro de la release.

@@ -195,18 +195,18 @@ function getAssetForPlatform(assets: ReleaseAsset[], platform: Platform) {
     const name = asset.name.toLowerCase();
 
     if (platform === "macArm") {
-      return /(?:mac|darwin|osx|dmg|pkg)/.test(name) && /(?:arm64|aarch64|apple[-_\s]?silicon)/.test(name);
+      return /^lorekeeper-\d+\.\d+\.\d+-macos-arm64\.zip$/.test(name);
     }
 
     if (platform === "macX64") {
-      return /(?:mac|darwin|osx|dmg|pkg)/.test(name) && /(?:x64|amd64|intel)/.test(name);
+      return /^lorekeeper-\d+\.\d+\.\d+-macos-x64\.zip$/.test(name);
     }
 
     if (platform === "windows") {
-      return /(?:windows|win32|win64|win|setup|\.exe|\.msi)/.test(name);
+      return /^lorekeeper-\d+\.\d+\.\d+-windows-x64\.zip$/.test(name);
     }
 
-    return /(?:linux|appimage|\.deb|\.rpm|x86_64\.tar|amd64\.tar)/.test(name);
+    return /^lorekeeper-\d+\.\d+\.\d+-linux-x64\.zip$/.test(name);
   });
 }
 
