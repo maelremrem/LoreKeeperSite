@@ -150,7 +150,7 @@ const copy = {
 } satisfies Record<Locale, Record<string, unknown>>;
 
 const appRepoUrl = "https://github.com/maelremrem/lorekeeper";
-const latestReleaseApiUrl = "https://api.github.com/repos/maelremrem/lorekeeper/releases/latest";
+const latestReleaseApiUrl = "https://api.github.com/repos/maelremrem/LoreKeeperSite/releases/latest";
 
 const screenshots = [
   { src: "screenshots/lorekeeper-gm-console.png", key: "desktopCaption" },

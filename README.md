@@ -29,7 +29,7 @@ utilisée autour d'une table.
 ## Téléchargements
 
 La section de téléchargement lit automatiquement la dernière release publique du
-repo `maelremrem/lorekeeper` via l'API GitHub. Elle attend uniquement des
+repo `maelremrem/LoreKeeperSite` via l'API GitHub. Elle attend uniquement des
 versions portables en `.zip`, nommées ainsi:
 
 - macOS Apple Silicon: `LoreKeeper-0.1.0-macos-arm64.zip`
