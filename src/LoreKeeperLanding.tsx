@@ -73,7 +73,7 @@ const copy = {
     soonTooltip: "Available soon",
     downloads: {
       macArm: "macOS Apple Silicon",
-      macX64: "macOS x64",
+      macX64: "macOS Intel x64",
       windows: "Download for Windows",
       linux: "Download for Linux",
     } satisfies Record<Platform, string>,
@@ -131,7 +131,7 @@ const copy = {
     soonTooltip: "Bientôt disponible",
     downloads: {
       macArm: "macOS Apple Silicon",
-      macX64: "macOS x64",
+      macX64: "macOS Intel x64",
       windows: "Télécharger pour Windows",
       linux: "Télécharger pour Linux",
     } satisfies Record<Platform, string>,
