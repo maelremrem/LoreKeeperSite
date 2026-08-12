@@ -73,7 +73,7 @@ const copy = {
     soonTooltip: "Available soon",
     downloads: {
       macArm: "macOS Apple Silicon",
-      macX64: "macOS Intel",
+      macX64: "macOS x64",
       windows: "Download for Windows",
       linux: "Download for Linux",
     } satisfies Record<Platform, string>,
@@ -131,7 +131,7 @@ const copy = {
     soonTooltip: "Bientôt disponible",
     downloads: {
       macArm: "macOS Apple Silicon",
-      macX64: "macOS Intel",
+      macX64: "macOS x64",
       windows: "Télécharger pour Windows",
       linux: "Télécharger pour Linux",
     } satisfies Record<Platform, string>,
@@ -191,7 +191,7 @@ function getAssetForPlatform(assets: ReleaseAsset[], platform: Platform) {
     }
 
     if (platform === "macX64") {
-      return /(?:mac|darwin|osx|dmg|pkg)/.test(name) && /(?:x64|x86_64|amd64|intel)/.test(name);
+      return /(?:mac|darwin|osx|dmg|pkg)/.test(name) && /(?:x64|amd64|intel)/.test(name);
     }
 
     if (platform === "windows") {

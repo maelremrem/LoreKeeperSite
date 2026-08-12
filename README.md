@@ -34,7 +34,7 @@ boutons à partir de leur nom:
 
 - macOS Apple Silicon: `mac`, `darwin`, `osx`, `dmg` ou `pkg` + `arm64`,
   `aarch64` ou `apple-silicon`
-- macOS Intel: `mac`, `darwin`, `osx`, `dmg` ou `pkg` + `x64`, `x86_64`,
-  `amd64` ou `intel`
+- macOS x64: `mac`, `darwin`, `osx`, `dmg` ou `pkg` + `x64`, `amd64` ou
+  `intel`
 - Windows: `windows`, `win32`, `win64`, `win`, `setup`, `.exe` ou `.msi`
 - Linux: `linux`, `appimage`, `.deb`, `.rpm`, `x86_64.tar` ou `amd64.tar`
