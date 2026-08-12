@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Locale = "en" | "fr";
 
@@ -7,7 +7,20 @@ type Feature = {
   text: string;
 };
 
-type Platform = "mac" | "windows" | "linux";
+type Platform = "macArm" | "macX64" | "windows" | "linux";
+
+type ReleaseAsset = {
+  name: string;
+  browser_download_url: string;
+};
+
+type DownloadState = "loading" | "ready" | "unavailable";
+
+type DownloadOption = {
+  platform: Platform;
+  href?: string;
+  state: DownloadState;
+};
 
 const copy = {
   en: {
@@ -55,10 +68,12 @@ const copy = {
       "LoreKeeper runs on the GM computer, stores the campaign in SQLite and serves the player interface on the local network. It is made for people sitting around the same table.",
     downloadTitle: "Download LoreKeeper",
     downloadText:
-      "Desktop builds for game masters will be published here when the installers are ready.",
+      "The buttons automatically link to the latest packages published in the LoreKeeper GitHub release.",
+    loadingTooltip: "Looking for the latest release",
     soonTooltip: "Available soon",
     downloads: {
-      mac: "Download for macOS",
+      macArm: "macOS Apple Silicon",
+      macX64: "macOS Intel",
       windows: "Download for Windows",
       linux: "Download for Linux",
     } satisfies Record<Platform, string>,
@@ -111,10 +126,12 @@ const copy = {
       "LoreKeeper tourne sur le PC du MJ, stocke la campagne en SQLite et sert l'interface joueur sur le réseau local. C'est fait pour les gens assis autour de la même table.",
     downloadTitle: "Télécharger LoreKeeper",
     downloadText:
-      "Les builds desktop pour les MJ seront publiés ici quand les installateurs seront prêts.",
+      "Les boutons pointent automatiquement vers les derniers packages publiés dans la release GitHub de LoreKeeper.",
+    loadingTooltip: "Recherche de la dernière release",
     soonTooltip: "Bientôt disponible",
     downloads: {
-      mac: "Télécharger pour macOS",
+      macArm: "macOS Apple Silicon",
+      macX64: "macOS Intel",
       windows: "Télécharger pour Windows",
       linux: "Télécharger pour Linux",
     } satisfies Record<Platform, string>,
@@ -125,6 +142,7 @@ const copy = {
 } satisfies Record<Locale, Record<string, unknown>>;
 
 const appRepoUrl = "https://github.com/maelremrem/lorekeeper";
+const latestReleaseApiUrl = "https://api.github.com/repos/maelremrem/lorekeeper/releases/latest";
 
 const screenshots = [
   { src: "screenshots/lorekeeper-gm-console.png", key: "desktopCaption" },
@@ -132,10 +150,10 @@ const screenshots = [
   { src: "screenshots/lorekeeper-table-display.png", key: "displayCaption" },
 ];
 
-const platforms = ["mac", "windows", "linux"] satisfies Platform[];
+const platforms = ["macArm", "macX64", "windows", "linux"] satisfies Platform[];
 
 function PlatformIcon({ platform }: { platform: Platform }) {
-  if (platform === "mac") {
+  if (platform === "macArm" || platform === "macX64") {
     return (
       <svg aria-hidden="true" viewBox="0 0 24 24">
         <path
@@ -164,9 +182,75 @@ function PlatformIcon({ platform }: { platform: Platform }) {
   );
 }
 
+function getAssetForPlatform(assets: ReleaseAsset[], platform: Platform) {
+  return assets.find((asset) => {
+    const name = asset.name.toLowerCase();
+
+    if (platform === "macArm") {
+      return /(?:mac|darwin|osx|dmg|pkg)/.test(name) && /(?:arm64|aarch64|apple[-_\s]?silicon)/.test(name);
+    }
+
+    if (platform === "macX64") {
+      return /(?:mac|darwin|osx|dmg|pkg)/.test(name) && /(?:x64|x86_64|amd64|intel)/.test(name);
+    }
+
+    if (platform === "windows") {
+      return /(?:windows|win32|win64|win|setup|\.exe|\.msi)/.test(name);
+    }
+
+    return /(?:linux|appimage|\.deb|\.rpm|x86_64\.tar|amd64\.tar)/.test(name);
+  });
+}
+
 export function LoreKeeperLanding() {
   const [locale, setLocale] = useState<Locale>("fr");
+  const [releaseAssets, setReleaseAssets] = useState<ReleaseAsset[] | null>(null);
   const t = copy[locale];
+
+  useEffect(() => {
+    let ignore = false;
+
+    fetch(latestReleaseApiUrl, { headers: { Accept: "application/vnd.github+json" } })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`GitHub release lookup failed: ${response.status}`);
+        }
+
+        return response.json() as Promise<{ assets?: ReleaseAsset[] }>;
+      })
+      .then((release) => {
+        if (!ignore) {
+          setReleaseAssets(release.assets ?? []);
+        }
+      })
+      .catch(() => {
+        if (!ignore) {
+          setReleaseAssets([]);
+        }
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  const downloadOptions = useMemo<DownloadOption[]>(
+    () =>
+      platforms.map((platform) => {
+        if (!releaseAssets) {
+          return { platform, state: "loading" };
+        }
+
+        const asset = getAssetForPlatform(releaseAssets, platform);
+
+        if (!asset) {
+          return { platform, state: "unavailable" };
+        }
+
+        return { platform, href: asset.browser_download_url, state: "ready" };
+      }),
+    [releaseAssets],
+  );
 
   return (
     <main>
@@ -300,12 +384,24 @@ export function LoreKeeperLanding() {
         <h2>{t.downloadTitle as string}</h2>
         <p>{t.downloadText as string}</p>
         <div className="download-grid">
-          {platforms.map((platform) => (
-            <span className="download-tooltip" data-tooltip={t.soonTooltip as string} key={platform}>
-              <button className="download-button" type="button" disabled>
-                <PlatformIcon platform={platform} />
-                <span>{(t.downloads as Record<Platform, string>)[platform]}</span>
-              </button>
+          {downloadOptions.map((download) => (
+            <span
+              className="download-tooltip"
+              data-tooltip={download.state === "loading" ? (t.loadingTooltip as string) : (t.soonTooltip as string)}
+              data-enabled={download.state === "ready"}
+              key={download.platform}
+            >
+              {download.href ? (
+                <a className="download-button" href={download.href} rel="noreferrer" target="_blank">
+                  <PlatformIcon platform={download.platform} />
+                  <span>{(t.downloads as Record<Platform, string>)[download.platform]}</span>
+                </a>
+              ) : (
+                <button className="download-button" type="button" disabled>
+                  <PlatformIcon platform={download.platform} />
+                  <span>{(t.downloads as Record<Platform, string>)[download.platform]}</span>
+                </button>
+              )}
             </span>
           ))}
         </div>

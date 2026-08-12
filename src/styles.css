@@ -457,7 +457,7 @@ figure {
 
 .download-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
   margin-top: 28px;
 }
@@ -494,6 +494,10 @@ figure {
   transform: translate(-50%, 0);
 }
 
+.download-tooltip[data-enabled="true"]::after {
+  display: none;
+}
+
 .download-button {
   display: grid;
   grid-template-columns: 30px minmax(0, 1fr);
@@ -508,6 +512,14 @@ figure {
   background: color-mix(in srgb, var(--surface) 88%, white);
   font-weight: 850;
   text-align: left;
+  transition: 140ms ease;
+}
+
+a.download-button:hover {
+  border-color: color-mix(in srgb, var(--accent) 54%, var(--line));
+  color: var(--accent);
+  background: var(--surface-raised);
+  transform: translateY(-1px);
 }
 
 .download-button:disabled {
