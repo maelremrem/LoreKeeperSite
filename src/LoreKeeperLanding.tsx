@@ -84,6 +84,11 @@ const copy = {
       windows: "Download for Windows",
       linux: "Download for Linux",
     } satisfies Record<Platform, string>,
+    macGatekeeperTitle: "macOS launch issue",
+macGatekeeperText:
+  "If you encounter an error when launching LoreKeeper on macOS, GateKeeper may be blocking the application because it is not signed with an Apple Developer certificate. Signing and notarizing an application requires a paid Apple Developer account.",
+macGatekeeperHelp:
+  "After installing LoreKeeper, you can remove the quarantine attribute by running this command in Terminal:",
     ctaTitle: "Keep the ritual. Remove the friction.",
     ctaText:
       "LoreKeeper is for roleplayers who love character sheets, but would rather spend the evening making choices than reconciling paper copies.",
@@ -143,6 +148,11 @@ const copy = {
       windows: "Télécharger pour Windows",
       linux: "Télécharger pour Linux",
     } satisfies Record<Platform, string>,
+    macGatekeeperTitle: "Problème de lancement sur macOS",
+macGatekeeperText:
+  "Si vous rencontrez une erreur au lancement de LoreKeeper sur macOS, GateKeeper peut bloquer l'application car elle n'est pas signée avec un certificat Apple Developer. La signature et la notarisation d'une application nécessitent un compte développeur Apple payant.",
+macGatekeeperHelp:
+  "Après avoir installé LoreKeeper, vous pouvez supprimer l'attribut de quarantaine en exécutant cette commande dans le Terminal :",
     ctaTitle: "Gardez le rituel. Retirez la frustration.",
     ctaText:
       "LoreKeeper s'adresse aux rôlistes qui aiment les fiches de personnage, mais préfèrent passer la soirée à faire des choix plutôt qu'à réconcilier des copies papier.",
@@ -424,7 +434,7 @@ export function LoreKeeperLanding() {
         <p className="eyebrow">Downloads</p>
         <h2>{t.downloadTitle as string}</h2>
         <p>{downloadText}</p>
-        <div className="download-grid">
+                <div className="download-grid">
           {downloadOptions.map((download) => (
             <span
               className="download-tooltip"
@@ -445,6 +455,20 @@ export function LoreKeeperLanding() {
               )}
             </span>
           ))}
+        </div>
+
+        <div className="macos-gatekeeper-info">
+          <h3>{t.macGatekeeperTitle as string}</h3>
+
+          <p>{t.macGatekeeperText as string}</p>
+
+          <p>{t.macGatekeeperHelp as string}</p>
+
+          <pre>
+            <code>
+              xattr -dr com.apple.quarantine /Applications/LoreKeeper.app
+            </code>
+          </pre>
         </div>
       </section>
 
