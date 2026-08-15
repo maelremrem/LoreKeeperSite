@@ -196,15 +196,15 @@ function getAssetForPlatform(assets: ReleaseAsset[], platform: Platform) {
     const name = asset.name.toLowerCase();
 
     if (platform === "macArm") {
-      return /^lorekeeper-\d+\.\d+\.\d+-macos-arm64\.zip$/.test(name);
+      return /^lorekeeper-\d+\.\d+\.\d+-macos-arm64\.dmg$/.test(name);
     }
 
     if (platform === "macX64") {
-      return /^lorekeeper-\d+\.\d+\.\d+-macos-x64\.zip$/.test(name);
+      return /^lorekeeper-\d+\.\d+\.\d+-macos-x64\.dmg$/.test(name);
     }
 
     if (platform === "windows") {
-      return /^lorekeeper-\d+\.\d+\.\d+-windows-x64\.zip$/.test(name);
+      return /^lorekeeper-\d+\.\d+\.\d+-windows-x64-portable\.zip$/.test(name);
     }
 
     return /^lorekeeper-\d+\.\d+\.\d+-linux-x64\.zip$/.test(name);
