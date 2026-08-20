@@ -29,67 +29,87 @@ type DownloadOption = {
 };
 
 const copy = {
-  en: {
-    nav: ["For players", "At the table", "Screens", "Local", "Download"],
+    en: {
+    nav: ["Players", "In game", "Screens", "Local", "Download"],
     switchLabel: "Passer en français",
     badge: "Character sheets for tabletop RPG nights",
     title: "LoreKeeper",
     subtitle:
-      "A local app for game masters and players who want live character sheets without losing the paper-table feeling.",
-    primary: "See the table flow",
+      "A local app for GMs and players who want live character sheets without losing the feel of playing around a table with paper sheets.",
+    primary: "See the game flow",
     repo: "Application repo",
     repoLabel: "Open the LoreKeeper application repository on GitHub",
     secondary: "Lire en français",
-    proof: ["No accounts", "No cloud campaign", "Phones join by QR code", "GM keeps control"],
+    proof: ["No accounts", "No cloud campaigns", "Join via QR code", "The GM stays in control"],
+
     playerTitle: "Players keep their sheet in their hand",
     playerText:
-      "LoreKeeper turns the phone into a clean character sheet: hit points, inventory, skills, conditions, notes and special abilities stay readable during play. Players edit what the GM allows and everything else remains clearly locked.",
-    tableTitle: "Built for a noisy table, not a back office",
+      "LoreKeeper turns the player's phone into a clear character sheet: hit points, inventory, skills… Everything is available and can be edited according to the permissions set by the GM.",
+
+    tableTitle: "Built for a real gaming table.",
     tableText:
-      "The GM opens the desktop app, starts the local session, shows the QR code, then keeps an eye on characters, health and recent changes while the scene keeps moving.",
+      "The GM opens the desktop app, players connect using the QR code, and everything stays synchronized. Simple. Smooth.",
+
     features: [
       {
-        title: "Less paper chasing",
-        text: "No more asking who updated HP, where the shared item went, or which sheet has the latest skill score.",
+        title: "Less chance of forgetting",
+        text: "No more asking who changed their HP, where an item went… Everything stays synchronized between the player and the GM.",
       },
       {
-        title: "A sheet, not a rules engine",
-        text: "LoreKeeper stores the character state and table decisions without forcing death rules, dice math or campaign logic on your group.",
+        title: "A character sheet, not a rules engine",
+        text: "LoreKeeper simply centralizes information. It doesn't replace the game rules, dice rolls or interactions… What matters is what happens around the table, not behind the screen.",
       },
       {
-        title: "Secrets stay secret",
-        text: "GM notes and hidden inventory are never sent to player browsers. Players only receive the character data they are allowed to see.",
+        title: "No more excuses",
+        text: "No more forgotten character sheets. With LoreKeeper, everything is centralized and saved.",
       },
     ] satisfies Feature[],
+
     screensTitle: "Real LoreKeeper screens",
     screensText:
-      "The site uses captures from the actual application surfaces: the GM console, the mobile player sheet and the table display.",
-    desktopCaption: "GM console: campaign, QR access, connected players and character overview.",
-    playerCaption: "Player sheet: mobile-first sections, editable fields and sync state.",
-    displayCaption: "Table display: a shared view for the group when you want one.",
-    sessionTitle: "A session in five beats",
-    steps: ["Create the campaign", "Assign characters", "Show the QR code", "Players open their sheet", "Play with live updates"],
+      "LoreKeeper provides three screens.",
+
+    desktopCaption:
+      "GM console: campaign, QR access, connected players and character overview.",
+    playerCaption:
+      "Player sheet: your character sheets.",
+    displayCaption:
+      "Table display: a shared view for the group.",
+
+    sessionTitle: "A session in five steps",
+    steps: [
+      "Create the campaign",
+      "Assign character sheets",
+      "Show the QR code",
+      "Players open their sheet",
+      "Play!",
+    ],
+
     localTitle: "Local by design",
     localText:
-      "LoreKeeper runs on the GM computer, stores the campaign in SQLite and serves the player interface on the local network. It is made for people sitting around the same table.",
+      "LoreKeeper runs on the GM's computer, stores the campaign in SQLite and serves the player interface over the local network. Designed for playing together around the same table. Simple and secure.",
+
     downloadTitle: "Download LoreKeeper",
-    downloadLoading: "Checking the latest public release.",
-    downloadUnavailable: "Available soon.",
-    downloadReady: "Latest version: {version}. Pick the package for the GM computer and start your table locally.",
-    loadingTooltip: "Looking for the latest release",
-    soonTooltip: "Available soon",
+    downloadLoading: "Checking for the latest public release.",
+    downloadUnavailable: "Coming soon.",
+    downloadReady:
+      "Latest version: {version}. Choose the package for the GM's computer and start your game locally.",
+    loadingTooltip: "Checking for the latest release",
+    soonTooltip: "Coming soon",
+
     downloads: {
       macArm: "Download for macOS Apple Silicon",
       macX64: "Download for macOS Intel x64",
       windows: "Download for Windows",
       linux: "Download for Linux",
     } satisfies Record<Platform, string>,
-    ctaTitle: "Keep the ritual. Remove the friction.",
+
+    ctaTitle: "Keep the ritual. Remove the frustration.",
     ctaText:
-      "LoreKeeper is for roleplayers who love character sheets, but would rather spend the evening making choices than reconciling paper copies.",
+      "LoreKeeper is for roleplayers who love character sheets but would rather spend the evening making choices than reconciling paper copies.",
   },
   fr: {
-    nav: ["Joueurs", "À la table", "Écrans", "Local", "Télécharger"],
+    nav: ["Joueurs", "En jeu", "Écrans", "Local", "Télécharger"],
     switchLabel: "Switch to English",
     badge: "Fiches de personnage pour soirées JDR",
     title: "LoreKeeper",
@@ -102,35 +122,35 @@ const copy = {
     proof: ["Pas de comptes", "Pas de campagne cloud", "Connexion par QR code", "Le MJ garde la main"],
     playerTitle: "Les joueurs gardent leur fiche en main",
     playerText:
-      "LoreKeeper transforme le téléphone en fiche lisible: points de vie, inventaire, compétences, altérations, notes et capacités spéciales restent accessibles pendant la partie. Les joueurs modifient ce que le MJ autorise, le reste est clairement verrouillé.",
-    tableTitle: "Pensée pour une vraie table, pas pour un back-office",
+      "LoreKeeper transforme le téléphone du joueur en fiche lisible: points de vie, inventaire, compétences… Tout est disponible et modifiable en fonction des réglages prédéfinis par le MJ.",
+    tableTitle: "Pensée pour une vraie table.",
     tableText:
-      "Le MJ ouvre l'application de bureau, lance la session locale, affiche le QR code puis garde un œil sur les personnages, les PV et les derniers changements pendant que la scène continue.",
+      "Le MJ ouvre l'application de bureau, les joueurs se connectent grâce au QR Code, tout est synchronisé. Simple. Fluide.",
     features: [
       {
-        title: "Moins de chasse au papier",
-        text: "Plus besoin de demander qui a modifié ses PV, où est passé l'objet commun, ou quelle fiche porte le dernier score de compétence.",
+        title: "Moins de risque d’oubli",
+        text: "Plus besoin de demander qui a modifié ses PV, où est passé l'objet… Tout est synchronisé entre le joueur et le meneur.",
       },
       {
         title: "Une fiche, pas un moteur de règles",
-        text: "LoreKeeper conserve l'état des personnages et les décisions de table sans imposer de règle de mort, de calcul de dés ou de logique de campagne.",
+        text: "LoreKeeper permet juste la centralisation des informations, il ne remplace pas les règles du jeu, les lancés de dés, les interactions… Ce qui compte c’est ce qui se passe autour de la table, pas derrière l’écran.",
       },
       {
-        title: "Les secrets restent secrets",
-        text: "Les notes MJ et objets cachés ne sont jamais envoyés aux navigateurs joueurs. Chaque joueur reçoit uniquement ce qu'il a le droit de voir.",
+        title: "Plus d’excuses",
+        text: "Terminé les fiches de personnages oubliées, avec LoreKeeper tout est centralisé et enregistré.",
       },
     ] satisfies Feature[],
     screensTitle: "De vrais écrans LoreKeeper",
     screensText:
-      "Le site utilise des captures des surfaces réelles de l'application: console MJ, fiche mobile joueur et affichage de table.",
+      "LoreKeeper propose 3 écrans.",
     desktopCaption: "Console MJ: campagne, accès QR, joueurs connectés et vue des personnages.",
-    playerCaption: "Fiche joueur: sections mobiles, champs modifiables et état de synchronisation.",
-    displayCaption: "Affichage de table: une vue partagée pour le groupe quand vous en avez besoin.",
+    playerCaption: "Fiche joueur: la fiche de vos personnages.",
+    displayCaption: "Affichage de table: une vue partagée pour le groupe.",
     sessionTitle: "Une session en cinq temps",
-    steps: ["Créer la campagne", "Attribuer les fiches", "Afficher le QR code", "Les joueurs ouvrent leur fiche", "Jouer avec les mises à jour"],
+    steps: ["Créer la campagne", "Attribuer les fiches", "Afficher le QR code", "Les joueurs ouvrent leur fiche", "Jouer !"],
     localTitle: "Local par principe",
     localText:
-      "LoreKeeper tourne sur le PC du MJ, stocke la campagne en SQLite et sert l'interface joueur sur le réseau local. C'est fait pour les gens assis autour de la même table.",
+      "LoreKeeper tourne sur le PC du MJ, stocke la campagne en SQLite et sert l'interface joueur sur le réseau local. Conçu pour jouer autour de la même table. Simple et sécurisé",
     downloadTitle: "Télécharger LoreKeeper",
     downloadLoading: "Recherche de la dernière release publique.",
     downloadUnavailable: "Bientôt disponible.",
@@ -361,7 +381,6 @@ export function LoreKeeperLanding() {
 
       <section className="story-section" id="players">
         <div>
-          <p className="eyebrow">Players</p>
           <h2>{t.playerTitle as string}</h2>
           <p>{t.playerText as string}</p>
         </div>
@@ -372,7 +391,6 @@ export function LoreKeeperLanding() {
 
       <section className="story-section reverse" id="table">
         <div>
-          <p className="eyebrow">Game night</p>
           <h2>{t.tableTitle as string}</h2>
           <p>{t.tableText as string}</p>
         </div>
@@ -388,7 +406,6 @@ export function LoreKeeperLanding() {
       </section>
 
       <section className="section screens" id="screens">
-        <p className="eyebrow">Screens</p>
         <h2>{t.screensTitle as string}</h2>
         <p>{t.screensText as string}</p>
         <div className="screenshot-grid">
@@ -402,7 +419,6 @@ export function LoreKeeperLanding() {
       </section>
 
       <section className="section steps">
-        <p className="eyebrow">Session</p>
         <h2>{t.sessionTitle as string}</h2>
         <ol>
           {(t.steps as string[]).map((step) => (
@@ -414,14 +430,17 @@ export function LoreKeeperLanding() {
       <section className="local-band" id="local">
         <img src="lorekeeper-mark.png" alt="" />
         <div>
-          <p className="eyebrow">Local-first</p>
           <h2>{t.localTitle as string}</h2>
           <p>{t.localText as string}</p>
         </div>
       </section>
 
+      <section className="final-cta">
+        <h2>{t.ctaTitle as string}</h2>
+        <p>{t.ctaText as string}</p>
+      </section>
+
       <section className="section downloads" id="download">
-        <p className="eyebrow">Downloads</p>
         <h2>{t.downloadTitle as string}</h2>
         <p>{downloadText}</p>
         <div className="download-grid">
@@ -446,11 +465,6 @@ export function LoreKeeperLanding() {
             </span>
           ))}
         </div>
-      </section>
-
-      <section className="final-cta">
-        <h2>{t.ctaTitle as string}</h2>
-        <p>{t.ctaText as string}</p>
       </section>
     </main>
   );
