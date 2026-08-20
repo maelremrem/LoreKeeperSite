@@ -92,8 +92,10 @@ const copy = {
     downloadTitle: "Download LoreKeeper",
     downloadLoading: "Checking for the latest public release.",
     downloadUnavailable: "Coming soon.",
-    downloadReady:
-      "Latest version: {version}. Choose the package for the GM's computer and start your game locally.",
+    downloadVersionLabel: "Latest version:",
+    downloadDescription:
+      "More info : {version}.",
+    downloadCallToAction: "Download the package and start your table.",
     loadingTooltip: "Checking for the latest release",
     soonTooltip: "Coming soon",
 
@@ -158,7 +160,9 @@ macGatekeeperHelp:
     downloadTitle: "Télécharger LoreKeeper",
     downloadLoading: "Recherche de la dernière release publique.",
     downloadUnavailable: "Bientôt disponible.",
-    downloadReady: "Dernière version: {version}. Choisissez le package du PC MJ et lancez votre table en local.",
+    downloadVersionLabel: "Dernière version :",
+    downloadDescription: "Plus d'info : {version}.",
+    downloadCallToAction: "Téléchargez le package et lancez votre table.",
     loadingTooltip: "Recherche de la dernière release",
     soonTooltip: "Bientôt disponible",
     downloads: {
@@ -244,6 +248,10 @@ function getReleaseVersion(release: ReleaseInfo) {
   return release.name?.trim() || release.tag_name;
 }
 
+function getReleaseTag(release: ReleaseInfo) {
+  return release.tag_name.trim();
+}
+
 async function fetchJson<T>(url: string) {
   const response = await fetch(url, { headers: { Accept: "application/vnd.github+json" } });
 
@@ -315,12 +323,20 @@ export function LoreKeeperLanding() {
     [releaseInfo],
   );
 
-  const downloadText =
+  const downloadStatusText =
     releaseInfo === undefined
       ? (t.downloadLoading as string)
       : releaseInfo === null
         ? (t.downloadUnavailable as string)
-        : (t.downloadReady as string).replace("{version}", getReleaseVersion(releaseInfo));
+        : null;
+
+  const downloadVersionTag =
+    releaseInfo && releaseInfo !== null ? getReleaseTag(releaseInfo) : null;
+
+  const downloadDescription =
+    releaseInfo && releaseInfo !== null
+      ? (t.downloadDescription as string).replace("{version}", getReleaseVersion(releaseInfo))
+      : null;
 
   return (
     <main>
@@ -451,8 +467,19 @@ export function LoreKeeperLanding() {
 
       <section className="section downloads" id="download">
         <h2>{t.downloadTitle as string}</h2>
-        <p>{downloadText}</p>
-                <div className="download-grid">
+        {downloadStatusText ? (
+          <p>{downloadStatusText}</p>
+        ) : (
+          <div className="download-copy">
+            <p className="download-version-line">
+              <span>{t.downloadVersionLabel as string}</span>{" "}
+              <strong>{downloadVersionTag}</strong>
+            </p>
+            <p>{downloadDescription}</p>
+            <p>{t.downloadCallToAction as string}</p>
+          </div>
+        )}
+        <div className="download-grid">
           {downloadOptions.map((download) => (
             <span
               className="download-tooltip"

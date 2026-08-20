@@ -17,7 +17,12 @@ test("builds a static LoreKeeper Pages site", async () => {
   assert.match(page, /https:\/\/github\.com\/maelremrem\/lorekeeper/);
   assert.match(page, /Ouvrir le dépôt GitHub de l'application LoreKeeper/);
   assert.match(page, /Télécharger LoreKeeper/);
-  assert.match(page, /Dernière version: \{version\}/);
+  assert.match(page, /Dernière version :/);
+  assert.match(page, /Associée à \{version\}\./);
+  assert.match(page, /Téléchargez le package et lancez votre table\./);
+  assert.match(page, /Latest version:/);
+  assert.match(page, /Associated with \{version\}\./);
+  assert.match(page, /Download the package and start your table\./);
   assert.match(page, /Bientôt disponible\./);
   assert.match(page, /https:\/\/api\.github\.com\/repos\/maelremrem\/LoreKeeperSite\/releases/);
   assert.match(page, /https:\/\/api\.github\.com\/repos\/maelremrem\/LoreKeeperSite\/releases\/tags\/beta/);
@@ -25,9 +30,9 @@ test("builds a static LoreKeeper Pages site", async () => {
   assert.match(page, /Télécharger pour macOS Intel x64/);
   assert.match(page, /Télécharger pour Windows/);
   assert.match(page, /Télécharger pour Linux/);
-  assert.match(page, /macos-arm64\\\.zip/);
-  assert.match(page, /macos-x64\\\.zip/);
-  assert.match(page, /windows-x64\\\.zip/);
+  assert.match(page, /macos-arm64\\\.dmg/);
+  assert.match(page, /macos-x64\\\.dmg/);
+  assert.match(page, /windows-x64-portable\\\.zip/);
   assert.match(page, /linux-x64\\\.zip/);
   assert.match(page, /Bientôt disponible/);
   assert.match(page, /Retirez la frustration/);

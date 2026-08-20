@@ -454,6 +454,28 @@ figure {
   max-width: 720px;
 }
 
+.download-copy {
+  max-width: 720px;
+}
+
+.download-copy p {
+  margin: 0;
+}
+
+.download-copy p + p {
+  margin-top: 8px;
+}
+
+.download-version-line {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.download-version-line strong {
+  color: var(--accent);
+  font-weight: 850;
+}
+
 .download-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
